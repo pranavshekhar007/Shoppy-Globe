@@ -18,7 +18,7 @@ Node.js (Recommended: v18+)
 npm
 
 # Clone the repository
-git clone https://github.com/your-username/shoppy-globe.git
+[git clone](https://github.com/pranavshekhar007/Shoppy-Globe.git)
 
 # Navigate into the project folder
 cd vite-project
