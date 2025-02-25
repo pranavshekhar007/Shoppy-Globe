@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = "your_super_secret_key"; // 🔥 Hardcoded Secret Key
+const JWT_SECRET = "your_super_secret_key"; // Hardcoded Secret Key
 
 const authMiddleware = (req, res, next) => {
   const token = req.header("Authorization");
