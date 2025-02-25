@@ -18,15 +18,15 @@ function Checkout() {
           {/* Cart Items List */}
           <div className="mb-6">
             {cartItems.map((item) => (
-              <div key={item.id} className="flex items-center justify-between p-4 border-b">
+              <div key={item.productId} className="flex items-center justify-between p-4 border-b">
                 <div className="flex items-center">
                   <img
-                    src={item.thumbnail}
+                    src={item.image}
                     alt={item.title}
                     className="w-16 h-16 object-cover rounded-lg mr-4"
                   />
                   <div>
-                    <h3 className="text-lg font-semibold">{item.title}</h3>
+                    <h3 className="text-lg font-semibold">{item.name}</h3>
                     <p className="text-gray-600">Quantity: {item.quantity}</p>
                   </div>
                 </div>

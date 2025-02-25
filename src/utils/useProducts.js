@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const useProducts = (url) => {
+const useProducts = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -8,10 +8,10 @@ const useProducts = (url) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(url);
+        const response = await fetch("http://localhost:5700/api/products"); // Updated API URL
         if (!response.ok) throw new Error("Failed to fetch products");
         const result = await response.json();
-        setData(result.products);
+        setData(result);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -20,7 +20,7 @@ const useProducts = (url) => {
     };
 
     fetchData();
-  }, [url]);
+  }, []);
 
   return { data, loading, error };
 };

@@ -53,11 +53,11 @@ const appRouter = createBrowserRouter(
           <Suspense fallback={<p className="text-center text-lg">Wait...</p>}>
             <ProductDetail />
           </Suspense>         
-        }
-      ]
+        },
+      ],
     },
   ]
-)
+);
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
@@ -65,4 +65,4 @@ createRoot(document.getElementById('root')).render(
         <RouterProvider router={appRouter} />
       </Suspense>
     </StrictMode>,
-)
+);

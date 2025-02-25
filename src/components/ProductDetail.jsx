@@ -13,11 +13,11 @@ function ProductDetail() {
 
   // Get cart items from Redux state
   const cartItems = useSelector((state) => state.cart.items);
-  const cartItem = cartItems.find((item) => item.id === Number(id));
+  const cartItem = product ? cartItems.find((item) => item.productId === product._id) : null;
 
   // Fetch product details when component mounts
   useEffect(() => {
-    fetch(`https://dummyjson.com/products/${id}`)
+    fetch(`http://localhost:5700/api/products/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setProduct(data);
@@ -37,64 +37,62 @@ function ProductDetail() {
     <div className="p-6 max-w-xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
       <div className="w-full h-50 flex justify-center items-center bg-gray-100">
         <img
-          src={product.thumbnail}
-          alt={product.title}
+          src={product.image}
+          alt={product.name}
           className="w-full h-full object-contain rounded-t-lg"
         />
       </div>
 
       {/* Product Info */}
       <div className="p-6">
-        <h2 className="text-3xl font-bold text-gray-800">{product.title}</h2>
+        <h2 className="text-3xl font-bold text-gray-800">{product.name}</h2>
         <p className="text-lg text-gray-600 mt-2">{product.description}</p>
         <p className="text-2xl font-bold text-green-600 mt-4">${product.price}</p>
 
         {/* Add to Cart or Quantity Controls */}
-      {cartItem ? (
-        <div className="flex items-center justify-center gap-2 mt-3">
-          <button
-            onClick={(event) => {
-              event.preventDefault();
-              event.stopPropagation();
-              if (cartItem.quantity > 1) {
-                dispatch(updateQuantity({ id: product.id, quantity: cartItem.quantity - 1 }));
-              } else {
-                dispatch(removeFromCart(product.id));
-              }
-            }}
-            className="bg-red-500 text-white px-4 py-2 rounded-full shadow-md hover:bg-red-600 transition-all duration-200"
-          >
-            −
+        {cartItem ? (
+  <div className="flex items-center justify-center gap-2 mt-3">
+    <button
+      onClick={(event) => {
+        event.preventDefault();
+        if (cartItem.quantity > 1) {
+          dispatch(updateQuantity({ productId: product._id, quantity: cartItem.quantity - 1 }));
+        } else {
+          dispatch(removeFromCart({ productId: product._id }));
+        }
+      }}
+      className="bg-red-500 text-white px-4 py-2 rounded-full shadow-md hover:bg-red-600 transition-all duration-200"
+    >
+      −
+    </button>
+    <span className="text-lg font-semibold text-gray-800">{cartItem.quantity}</span>
+    <button
+      onClick={(event) => {
+        event.preventDefault();
+        dispatch(updateQuantity({ productId: product._id, quantity: cartItem.quantity + 1 }));
+      }}
+      className="bg-green-500 text-white px-4 py-2 rounded-full shadow-md hover:bg-green-600 transition-all duration-200"
+    >
+      +
+    </button>
+  </div>
+) : (
+  <button
+    onClick={() => {
+      dispatch(addToCart({ productId: product._id, name: product.name, price: product.price, image: product.image }));
+    }}
+    className="mt-3 w-full bg-gradient-to-r from-orange-500 to-indigo-600 text-white font-semibold py-2 rounded-lg shadow-md hover:from-blue-600 hover:to-indigo-700 hover:shadow-lg transition-all duration-300 cursor-pointer"
+  >
+    🛒 Add to Cart
+  </button>
+)}
+
+        
+        <Link to="/products">
+          <button className="mt-3 w-full bg-gradient-to-r from-orange-500 to-indigo-600 text-white font-semibold py-2 rounded-lg shadow-md hover:from-blue-600 hover:to-indigo-700 hover:shadow-lg transition-all duration-300 cursor-pointer">
+            Back
           </button>
-          <span className="text-lg font-semibold text-gray-800">{cartItem.quantity}</span>
-          <button
-            onClick={(event) => {
-              event.preventDefault();
-              event.stopPropagation();
-              dispatch(updateQuantity({ id: product.id, quantity: cartItem.quantity + 1 }));
-            }}
-            className="bg-green-500 text-white px-4 py-2 rounded-full shadow-md hover:bg-green-600 transition-all duration-200"
-          >
-            +
-          </button>
-        </div>
-      ) : (
-        <button
-          onClick={(event) => {
-            event.preventDefault();
-            event.stopPropagation();
-            dispatch(addToCart(product));
-          }}
-          className="mt-3 w-full bg-gradient-to-r from-orange-500 to-indigo-600 text-white font-semibold py-2 rounded-lg shadow-md hover:from-blue-600 hover:to-indigo-700 hover:shadow-lg transition-all duration-300 cursor-pointer"
-        >
-          🛒 Add to Cart
-        </button>
-      )}
-      <Link to="/products">
-      <button className="mt-3 w-full bg-gradient-to-r from-orange-500 to-indigo-600 text-white font-semibold py-2 rounded-lg shadow-md hover:from-blue-600 hover:to-indigo-700 hover:shadow-lg transition-all duration-300 cursor-pointer">
-        Back 
-      </button>
-      </Link>
+        </Link>
       </div>
     </div>
   );

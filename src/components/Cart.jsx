@@ -17,7 +17,7 @@ function Cart() {
       ) : (
         <>
           {cartItems.map((item) => (
-            <CartItem key={item.id} item={item} />
+            <CartItem key={item.productId} item={item} />
           ))}
 
           {/* Order Summary Styled Like Checkout Page */}
@@ -44,6 +44,10 @@ function Cart() {
                 🛍️ Proceed to Checkout
               </button>
             </Link>
+          </div>
+
+          <div className="mt-6 text-center">
+            <Link to="/products" className="text-blue-500 hover:underline">← Back to Product</Link>
           </div>
         </>
       )}
